@@ -19,7 +19,9 @@ use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Core\Resource\Collection\AbstractFileCollection;
 use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Resource\FileCollectionRepository;
-use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Extbase\Mvc\View\ViewResolverInterface;
+use TYPO3\CMS\Fluid\Core\Rendering\RenderingContext;
+use TYPO3Fluid\Fluid\View\AbstractTemplateView;
 use WapplerSystems\FilecollectionGallery\Service\FileCollectionService;
 use WapplerSystems\FilecollectionGallery\Service\FolderService;
 
@@ -32,7 +34,7 @@ class GalleryController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
 {
 
 
-    public function __construct(readonly FileCollectionService $fileCollectionService, readonly FileCollectionRepository $fileCollectionRepository, readonly FolderService $folderService)
+    public function __construct(readonly FileCollectionService $fileCollectionService, readonly FileCollectionRepository $fileCollectionRepository, readonly FolderService $folderService, readonly ViewResolverInterface $viewResolver)
     {
 
     }
@@ -60,7 +62,7 @@ class GalleryController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     public function listAction($offset = 0): ResponseInterface
     {
 
-        $collectionUids = explode(',', $this->settings['fileCollection']);
+        $collectionUids = (trim($this->settings['fileCollection']) !== '') ? explode(',', $this->settings['fileCollection']) : [];
         $cObj = $this->request->getAttribute('currentContentObject');
         $currentUid = $cObj->data['uid'];
         $columnPosition = $cObj->data['colPos'];
@@ -68,6 +70,10 @@ class GalleryController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
         $collection = null;
 
         $showBackToGallerySelectionLink = false;
+
+        if ($collectionUids === []) {
+            return $this->htmlErrorResponse('LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang.xlf:error.noGallerySelected');
+        }
 
         if ($this->request->hasArgument('galleryUID')) {
             $gallery = [$this->request->getArgument('galleryUID')];
@@ -204,5 +210,33 @@ class GalleryController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
         }
 
         return $this->htmlResponse();
+    }
+
+
+
+    protected function htmlErrorResponse(?string $errorLabel = null): ResponseInterface
+    {
+        $view = $this->viewResolver->resolve(
+            $this->request->getControllerObjectName(),
+            $this->request->getControllerActionName(),
+            $this->request->getFormat()
+        );
+        $this->setViewConfiguration($view);
+        if ($view instanceof AbstractTemplateView) {
+            $renderingContext = $view->getRenderingContext();
+            if ($renderingContext instanceof RenderingContext) {
+                $renderingContext->setRequest($this->request);
+            }
+            $renderingContext->setControllerAction('error');
+            $templatePaths = $view->getRenderingContext()->getTemplatePaths();
+            $templatePaths->fillDefaultsByPackageName($this->request->getControllerExtensionKey());
+            $templatePaths->setFormat($this->request->getFormat());
+        }
+        $view->assign('errorLabel', $errorLabel);
+
+        return $this->responseFactory->createResponse()
+            ->withHeader('Content-Type', 'text/html; charset=utf-8')
+            ->withStatus(500)
+            ->withBody($this->streamFactory->createStream($view->render()));
     }
 }

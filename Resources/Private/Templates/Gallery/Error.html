@@ -6,10 +6,9 @@
 
 <f:section name="Main">
 
-    <f:if condition="{mediaItems}">
-        <f:render partial="Gallery" arguments="{mediaItems:mediaItems}" />
-    </f:if>
-
+    <div class="alert alert-error">
+        <f:translate key="{errorLabel}" />
+    </div>
 
 </f:section>
 </html>

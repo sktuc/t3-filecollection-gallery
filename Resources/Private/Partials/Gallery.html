@@ -1,0 +1,70 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"
+      xmlns:wf="http://typo3.org/ns/WapplerSystems/FilecollectionGallery/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+
+<f:if condition="{mediaItems}">
+    <f:if condition="{settings.nestedEnableDescription}">
+        <h2>{galleryListName}</h2>
+    </f:if>
+    <f:if condition="{showBackToGallerySelectionLink}">
+        <f:link.action action="nested">
+            <f:translate key="back_to_gallery_selection"/>
+        </f:link.action>
+    </f:if>
+
+
+
+    <div class="fc-gallery">
+
+        <div class="d-block d-md-none fc-gallery--mobile">
+
+            <f:for each="{mediaItems}" as="mediaItem">
+
+                <div class="mb-3 fc-gallery__item-wrapper">
+
+
+                    <f:image class="fc-gallery__item__thumbnail" image="{mediaItem}" maxWidth="700" />
+
+
+                    <f:link.file class="fc-gallery__download-btn" download="1" file="{mediaItem}">
+                        <f:image title="{f:translate(key: 'LLL:EXT:filecollection_gallery/Resources/Languages/locallang.xlf:btn.download')}" src="EXT:filecollection_gallery/Resources/Public/Images/download-solid.svg" />
+                    </f:link.file>
+
+                </div>
+
+
+            </f:for>
+
+
+        </div>
+        <div class="d-md-block fc-gallery--desktop">
+            <div class="fc-gallery-grid">
+                <f:for each="{mediaItems}" as="mediaItem">
+
+                    <div class="mb-3 fc-gallery__item-wrapper">
+
+                        <a class="glightbox fc-gallery__item" title="{f:if(condition:mediaItem.properties.title,then:mediaItem.properties.title,else:mediaItem.name)}" href="{f:uri.image(image:mediaItem, maxHeight:1000, maxWidth:2000)}">
+                            <f:image class="fc-gallery__item__thumbnail" image="{mediaItem}" width="700c" height="700c" />
+                            <div class="fc-gallery__item__overlay">
+                                <f:image class="fc-gallery__maximize-btn" title="{f:translate(key: 'LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang.xlf:btn.maximize')}" src="EXT:filecollection_gallery/Resources/Public/Images/maximize-solid.svg" />
+                            </div>
+                        </a>
+                        <f:link.file title="{f:translate(key: 'LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang.xlf:btn.download')}" class="fc-gallery__download-btn" download="1" file="{mediaItem}">
+                            <f:image title="{f:translate(key: 'LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang.xlf:btn.download')}" src="EXT:filecollection_gallery/Resources/Public/Images/download-solid.svg" />
+                        </f:link.file>
+
+                    </div>
+                </f:for>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</f:if>
+
+
+
+</html>

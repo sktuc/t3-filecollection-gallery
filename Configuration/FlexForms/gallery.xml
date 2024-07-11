@@ -13,36 +13,6 @@
                 </TCEforms>
                 <type>array</type>
                 <el>
-                    <switchableControllerActions>
-                        <TCEforms>
-                            <exclude>1</exclude>
-                            <label>LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:flexforms_general.displaymode</label>
-                            <config>
-                                <type>select</type>
-                                <renderType>selectSingle</renderType>
-                                <items>
-                                    <numIndex index="0">
-                                        <numIndex index="0">
-                                            LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:flexforms_general.display_list
-                                        </numIndex>
-                                        <numIndex index="1">Gallery->list</numIndex>
-                                    </numIndex>
-                                    <numIndex index="1">
-                                        <numIndex index="0">
-                                            LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:flexforms_general.display_nested
-                                        </numIndex>
-                                        <numIndex index="1">Gallery->nested;Gallery->list</numIndex>
-                                    </numIndex>
-                                    <numIndex index="2">
-                                        <numIndex index="0">
-                                            LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:flexforms_general.createNestedFromFolder
-                                        </numIndex>
-                                        <numIndex index="1">Gallery->nestedFromFolder;Gallery->listFromFolder</numIndex>
-                                    </numIndex>
-                                </items>
-                            </config>
-                        </TCEforms>
-                    </switchableControllerActions>
 
                     <settings.fileCollection>
                         <TCEforms>
