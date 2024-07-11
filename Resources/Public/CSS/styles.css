@@ -65,3 +65,7 @@
     float: right;
     font-size: 0.7rem;
 }
+
+.fc-gallery--mobile .fc-gallery-grid > div {
+    margin-bottom: 1rem;
+}

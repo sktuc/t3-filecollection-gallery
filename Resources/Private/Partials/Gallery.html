@@ -19,22 +19,28 @@
 
         <div class="d-block d-md-none fc-gallery--mobile">
 
-            <f:for each="{mediaItems}" as="mediaItem">
+            <div class="fc-gallery-grid">
+                <f:for each="{mediaItems}" as="mediaItem">
 
-                <div class="fc-gallery__item-wrapper">
-
-
-                    <f:image class="fc-gallery__item__thumbnail" image="{mediaItem}" maxWidth="700" />
-
-
-                    <f:link.file class="fc-gallery__download-btn" download="1" file="{mediaItem}">
-                        <f:image loading="lazy" title="{f:translate(key: 'LLL:EXT:filecollection_gallery/Resources/Languages/locallang.xlf:btn.download')}" src="EXT:filecollection_gallery/Resources/Public/Images/download-solid.svg" />
-                    </f:link.file>
-
-                </div>
+                    <div>
+                        <div class="fc-gallery__item-wrapper">
 
 
-            </f:for>
+                            <f:image class="fc-gallery__item__thumbnail" image="{mediaItem}" maxWidth="700" />
+
+
+                            <f:link.file class="fc-gallery__download-btn" download="1" file="{mediaItem}">
+                                <f:image loading="lazy" title="{f:translate(key: 'LLL:EXT:filecollection_gallery/Resources/Languages/locallang.xlf:btn.download')}" src="EXT:filecollection_gallery/Resources/Public/Images/download-solid.svg" />
+                            </f:link.file>
+
+                        </div>
+                        <f:if condition="{mediaItem.properties.copyright}">
+                            <span class="copyright">© {mediaItem.properties.copyright}</span>
+                        </f:if>
+                    </div>
+
+                </f:for>
+            </div>
 
 
         </div>
