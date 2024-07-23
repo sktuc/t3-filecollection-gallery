@@ -11,8 +11,8 @@
 }
 
 .fc-gallery__download-btn img {
-    width: 35px;
-    height: 35px;
+    width: 24px;
+    height: 24px;
 }
 
 .fc-gallery__item__thumbnail {
@@ -31,7 +31,7 @@
     bottom: 0;
     right: 0;
     background: rgba(255, 255, 255, 0.8);
-    padding: 5px;
+    padding: 10px;
 }
 
 .fc-gallery--desktop .fc-gallery__maximize-btn {

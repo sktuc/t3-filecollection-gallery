@@ -51,7 +51,7 @@
                     <div class="">
 
                         <div class="fc-gallery__item-wrapper">
-                            <a class="glightbox fc-gallery__item" data-glightbox="title: {f:if(condition:mediaItem.properties.title,then:mediaItem.properties.title,else:mediaItem.name)}; description: {mediaItem.properties.description}" title="{f:if(condition:mediaItem.properties.title,then:mediaItem.properties.title,else:mediaItem.name)}" href="{f:uri.image(image:mediaItem, maxHeight:1000, maxWidth:2000)}">
+                            <a class="glightbox fc-gallery__item" data-glightbox="title: {f:if(condition:mediaItem.properties.title,then:mediaItem.properties.title)}; description: {mediaItem.properties.description}" title="{f:if(condition:mediaItem.properties.title,then:mediaItem.properties.title,else:mediaItem.name)}" href="{f:uri.image(image:mediaItem, maxHeight:1000, maxWidth:2000)}">
                                 <f:image class="fc-gallery__item__thumbnail" image="{mediaItem}" width="700c" height="700c" />
                                 <div class="fc-gallery__item__overlay">
                                     <f:image loading="lazy" class="fc-gallery__maximize-btn" title="{f:translate(key: 'LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang.xlf:btn.maximize')}" src="EXT:filecollection_gallery/Resources/Public/Images/maximize-solid.svg" />
