@@ -34,6 +34,17 @@
                             </config>
                         </TCEforms>
                     </settings.fileCollection>
+
+                    <settings.inlineFileCollection>
+                        <TCEforms>
+                            <label>LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:flexforms_general.filecollection</label>
+                            <config>
+                                <type>inline</type>
+                                <foreign_table>sys_file_collection</foreign_table>
+                                <size>3</size>
+                            </config>
+                        </TCEforms>
+                    </settings.inlineFileCollection>
                 </el>
             </ROOT>
         </sDEF>
