@@ -81,6 +81,12 @@
             <trans-unit id="config.orderNestedFolder">
                 <source>Order of folders</source>
             </trans-unit>
+			<trans-unit id="plugin.filecollection_gallery.title">
+				<source>Image gallery</source>
+			</trans-unit>
+			<trans-unit id="plugin.filecollection_gallery.description">
+				<source></source>
+			</trans-unit>
         </body>
     </file>
 </xliff>

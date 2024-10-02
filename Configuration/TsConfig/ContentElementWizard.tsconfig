@@ -1,0 +1,15 @@
+mod.wizards.newContentElement.wizardItems.common {
+  elements {
+    filecollection_gallery {
+      iconIdentifier = content-gallery
+      title = LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:plugin.filecollection_gallery.title
+      description = LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:plugin.filecollection_gallery.description
+      tt_content_defValues {
+        CType = filecollection_gallery
+      }
+    }
+
+  }
+
+  show := addToList(filecollection_gallery)
+}

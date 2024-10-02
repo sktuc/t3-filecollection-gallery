@@ -8,8 +8,7 @@ ExtensionUtility::registerPlugin(
     'filecollection_gallery',
     'Gallery',
     'FileCollection Gallery',
-    null,
-    'gallery'
+    'content-gallery'
 );
 
 
