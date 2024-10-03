@@ -2,7 +2,7 @@
 
 $EM_CONF['filecollection_gallery'] = [
     'title' => 'FileCollection Gallery',
-    'description' => 'Simple FileCollection Gallery',
+    'description' => 'Simple FileCollection Gallery with mobile and desktop view',
     'category' => 'plugin',
     'author' => 'Sven Wappler',
     'author_email' => 'typo3YYYY@wappler.systems',
