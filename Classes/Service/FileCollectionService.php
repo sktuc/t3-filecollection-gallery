@@ -1,4 +1,5 @@
 <?php
+
 namespace WapplerSystems\FilecollectionGallery\Service;
 
 /*
@@ -173,39 +174,6 @@ class FileCollectionService
         return $paginationArray;
     }
 
-    /**
-     * Returns the array for assign to view in controller
-     *
-     * @param array $imageItems The imageItems to show
-     * @param int $offset The offset in gallery
-     * @param array $paginationConfiguration The pagination config
-     * @param array $settings The settings array
-     * @param int $currentUid The current uid
-     * @param int $columnPosition The column position
-     * @param bool $showBackToGallerySelectionLink If back link should be shown
-     *
-     * @return array
-     */
-    public function buildArrayForAssignToView(
-        $imageItems,
-        $offset,
-        $paginationConfiguration,
-        $settings,
-                                              $currentUid,
-        $columnPosition,
-        $showBackToGallerySelectionLink
-    ) {
-        $assign = [
-            'mediaItems' => $imageItems,
-            'offset' => $offset,
-            'paginationConfiguration' => $paginationConfiguration,
-            'settings' => $settings,
-            'currentUid' => $currentUid,
-            'columnPosition' => $columnPosition,
-            'showBackToGallerySelectionLink' => $showBackToGallerySelectionLink
-        ];
-        return $assign;
-    }
 
     protected function sortFileObjectsByName($items, int $direction)
     {
@@ -268,7 +236,7 @@ class FileCollectionService
      * Returns an FileObject from a given FileReference
      *
      */
-    protected function getFileObjectFromFileReference(FileReference $item) : \TYPO3\CMS\Core\Resource\File
+    protected function getFileObjectFromFileReference(FileReference $item): \TYPO3\CMS\Core\Resource\File
     {
         /**
          * The item to return

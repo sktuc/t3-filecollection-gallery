@@ -96,15 +96,12 @@ class GalleryController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
             $this->view->assign('galleryListName', $collection->getTitle());
         }
 
-        $this->view->assignMultiple($this->fileCollectionService->buildArrayForAssignToView(
-            $mediaItems,
-            $offset,
-            $this->fileCollectionService->buildPaginationArray($this->settings),
-            $this->settings,
-            $currentUid,
-            $columnPosition,
-            $showBackToGallerySelectionLink
-        ));
+        $this->view->assignMultiple([
+            'mediaItems' => $mediaItems,
+            'currentUid' => $currentUid,
+            'columnPosition' => $columnPosition,
+            'showBackToGallerySelectionLink' => $showBackToGallerySelectionLink
+        ]);
 
         return $this->htmlResponse();
     }
