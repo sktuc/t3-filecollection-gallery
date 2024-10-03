@@ -22,16 +22,28 @@ plugin.tx_filecollectiongallery {
 
     media < lib.contentElement.settings.media
 
-    image {
-      width = {$plugin.tx_filecollectiongallery.settings.image.width}
-      height = {$plugin.tx_filecollectiongallery.settings.image.height}
-      lightboxWidth = {$plugin.tx_filecollectiongallery.settings.image.lightboxWidth}
+    mobile {
+      image {
+        maxWidth = {$plugin.tx_filecollectiongallery.settings.mobile.image.maxWidth}
+      }
     }
 
-    itemsPerPage = {$plugin.tx_filecollectiongallery.settings.imagesPerPage}
-    numberOfPages = {$plugin.tx_filecollectiongallery.settings.numberOfPages}
-    nestedImagesPerPage = {$plugin.tx_filecollectiongallery.settings.nestedImagesPerPage}
-    nestedNumberOfPages = {$plugin.tx_filecollectiongallery.settings.nestedNumberOfPages}
+    desktop {
+      preview {
+        image {
+          width = {$plugin.tx_filecollectiongallery.settings.desktop.preview.image.width}
+          height = {$plugin.tx_filecollectiongallery.settings.desktop.preview.image.height}
+        }
+      }
+    }
+
+    downloadButton = {$plugin.tx_filecollectiongallery.settings.downloadButton}
+
+    lightbox {
+      maxWidth = {$plugin.tx_filecollectiongallery.settings.lightbox.maxWidth}
+      maxHeight = {$plugin.tx_filecollectiongallery.settings.lightbox.maxHeight}
+    }
+
   }
 }
 

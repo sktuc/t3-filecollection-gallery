@@ -51,6 +51,15 @@
             <trans-unit id="config.height">
                 <source>Height of images</source>
             </trans-unit>
+            <trans-unit id="config.maxWidth">
+                <source>Maximum width of images</source>
+            </trans-unit>
+            <trans-unit id="config.maxHeight">
+                <source>Maximum height of images</source>
+            </trans-unit>
+            <trans-unit id="config.download_button">
+                <source>Show download button</source>
+            </trans-unit>
             <trans-unit id="config.lightbox">
                 <source>Choose the lightbox related value (Default 'lightbox')</source>
             </trans-unit>

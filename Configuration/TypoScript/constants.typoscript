@@ -9,16 +9,41 @@ plugin.tx_filecollectiongallery {
   }
 
   settings {
-    image {
-      # cat=plugin.tx_filecollectiongallery/cimage; type=string; label=LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:config.width
-      width = 200c
-      # cat=plugin.tx_filecollectiongallery/cimage; type=string; label=LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:config.height
-      height = 200c
+
+    mobile {
+
+      image {
+        # cat=plugin.tx_filecollectiongallery/mobile/a; type=string; label=LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:config.width
+        maxWidth = 700
+      }
+
     }
 
-    itemsPerPage = 3
-    numberOfPages = 3
-    nestedImagesPerPage = 3
-    nestedNumberOfPages = 3
+    desktop {
+
+      preview {
+
+        image {
+          # cat=plugin.tx_filecollectiongallery/desktop-preview/a; type=string; label=LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:config.width
+          width = 700c
+          # cat=plugin.tx_filecollectiongallery/desktop-preview/b; type=string; label=LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:config.height
+          height = 700c
+        }
+
+      }
+
+    }
+
+    # cat=plugin.tx_filecollectiongallery/download/b; type=boolean; label=LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:config.download_button
+    downloadButton = 1
+
+
+    lightbox {
+      # cat=plugin.tx_filecollectiongallery/lightbox/a; type=int+; label=LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:config.maxWidth
+      maxWidth = 2000
+      # cat=plugin.tx_filecollectiongallery/lightbox/b; type=int+; label=LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang_be.xlf:config.maxHeight
+      maxHeight = 1000
+    }
+
   }
 }

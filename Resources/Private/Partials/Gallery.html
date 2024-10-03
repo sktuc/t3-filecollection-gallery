@@ -26,12 +26,13 @@
                         <div class="fc-gallery__item-wrapper">
 
 
-                            <f:image class="fc-gallery__item__thumbnail" image="{mediaItem}" maxWidth="700" />
+                            <f:image class="fc-gallery__item__thumbnail" image="{mediaItem}" maxWidth="{settings.mobile.image.maxWidth}" />
 
-
-                            <f:link.file class="fc-gallery__download-btn" download="1" file="{mediaItem}">
-                                <f:image loading="lazy" title="{f:translate(key: 'LLL:EXT:filecollection_gallery/Resources/Languages/locallang.xlf:btn.download')}" src="EXT:filecollection_gallery/Resources/Public/Images/download-solid.svg" />
-                            </f:link.file>
+                            <f:if condition="{settings.downloadButton}">
+                                <f:link.file class="fc-gallery__download-btn" download="1" file="{mediaItem}">
+                                    <f:image loading="lazy" title="{f:translate(key: 'LLL:EXT:filecollection_gallery/Resources/Languages/locallang.xlf:btn.download')}" src="EXT:filecollection_gallery/Resources/Public/Images/download-solid.svg" />
+                                </f:link.file>
+                            </f:if>
 
                         </div>
                         <f:if condition="{mediaItem.properties.copyright}">
@@ -51,15 +52,18 @@
                     <div class="">
 
                         <div class="fc-gallery__item-wrapper">
-                            <a class="glightbox fc-gallery__item" data-glightbox="title: {f:if(condition:mediaItem.properties.title,then:mediaItem.properties.title)}; description: {mediaItem.properties.description}" title="{f:if(condition:mediaItem.properties.title,then:mediaItem.properties.title,else:mediaItem.name)}" href="{f:uri.image(image:mediaItem, maxHeight:1000, maxWidth:2000)}">
-                                <f:image class="fc-gallery__item__thumbnail" image="{mediaItem}" width="700c" height="700c" />
+                            <a class="glightbox fc-gallery__item" data-glightbox="title: {f:if(condition:mediaItem.properties.title,then:mediaItem.properties.title)}; description: {mediaItem.properties.description}" title="{f:if(condition:mediaItem.properties.title,then:mediaItem.properties.title,else:mediaItem.name)}" href="{f:uri.image(image:mediaItem, maxHeight:settings.lightbox.maxHeight, maxWidth:settings.lightbox.maxWidth)}">
+                                <f:image class="fc-gallery__item__thumbnail" image="{mediaItem}" width="{settings.desktop.preview.image.width}" height="{settings.desktop.preview.image.height}" />
                                 <div class="fc-gallery__item__overlay">
                                     <f:image loading="lazy" class="fc-gallery__maximize-btn" title="{f:translate(key: 'LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang.xlf:btn.maximize')}" src="EXT:filecollection_gallery/Resources/Public/Images/maximize-solid.svg" />
                                 </div>
                             </a>
-                            <f:link.file title="{f:translate(key: 'LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang.xlf:btn.download')}" class="fc-gallery__download-btn" download="1" file="{mediaItem}">
-                                <f:image title="{f:translate(key: 'LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang.xlf:btn.download')}" src="EXT:filecollection_gallery/Resources/Public/Images/download-solid.svg" />
-                            </f:link.file>
+                            <f:if condition="{settings.downloadButton}">
+                                <f:link.file title="{f:translate(key: 'LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang.xlf:btn.download')}" class="fc-gallery__download-btn" download="1" file="{mediaItem}">
+                                    <f:image title="{f:translate(key: 'LLL:EXT:filecollection_gallery/Resources/Private/Language/locallang.xlf:btn.download')}" src="EXT:filecollection_gallery/Resources/Public/Images/download-solid.svg" />
+                                </f:link.file>
+                            </f:if>
+
                         </div>
                         <f:if condition="{mediaItem.properties.copyright}">
                             <span class="copyright">© {mediaItem.properties.copyright}</span>
