@@ -76,122 +76,29 @@ class FileCollectionService
         $imageItems = [];
         foreach ($collectionUids as $collectionUid) {
             $collection = $this->fileCollectionRepository->findByUid($collectionUid);
+            if ($collection === null) {
+                continue;
+            }
             $collection->loadContents();
             foreach ($collection->getItems() as $item) {
-                $collectionProperties = array(
+                $collectionProperties = [
                     'uid' => $collection->getUid(),
                     'title' => $collection->getTitle(),
                     'description' => $collection->getDescription()
-                );
-                if (get_class($item) === 'TYPO3\CMS\Core\Resource\FileReference') {
+                ];
+                if ($item instanceof \TYPO3\CMS\Core\Resource\FileReference) {
                     $file = $this->getFileObjectFromFileReference($item);
-                    $file->updateProperties(array('collection' => $collectionProperties));
-                    array_push($imageItems, $file);
+                    $file->updateProperties(['collection' => $collectionProperties]);
+                    $imageItems[] = $file;
                 } else {
-                    $item->updateProperties(array('collection' => $collectionProperties));
-                    array_push($imageItems, $item);
+                    $item->updateProperties(['collection' => $collectionProperties]);
+                    $imageItems[] = $item;
                 }
             }
         }
         return $this->sortFileObjects($imageItems);
     }
 
-    /**
-     * Returns an array of gallery covers for the given UIDs of fileCollections
-     *
-     * @param $collectionUids
-     * @return array
-     */
-    public function getGalleryCoversFromCollections($collectionUids)
-    {
-        $imageItems = [];
-        foreach ($collectionUids as $collectionUid) {
-            $collection = $this->fileCollectionRepository->findByUid($collectionUid);
-            $collection->loadContents();
-            $galleryCover = [];
-            foreach ($collection->getItems() as $item) {
-                if (get_class($item) === 'TYPO3\CMS\Core\Resource\FileReference') {
-                    array_push($galleryCover, $this->getFileObjectFromFileReference($item));
-                } else {
-                    array_push($galleryCover, $item);
-                }
-            }
-            $galleryCover = $this->sortFileObjects($galleryCover);
-
-            $galleryCover[0]->galleryUID = $collectionUid;
-            $galleryCover[0]->galleryTitle = $collection->getTitle();
-            $galleryCover[0]->galleryDescription = $collection->getDescription();
-            $galleryCover[0]->gallerySize = count($galleryCover);
-
-            array_push($imageItems, $galleryCover[0]);
-        }
-        return $this->sortFileObjects($imageItems);
-    }
-
-    /**
-     * Returns an array of gallery covers for the given UIDs of fileCollections
-     * Use if you have recursive folder collection.
-     *
-     * @param $collectionUids
-     * @return array
-     */
-    public function getGalleryCoversFromNestedFoldersCollection($collectionUids)
-    {
-        $configuration = $this->frontendConfigurationManager->getConfiguration();
-        $imageItems = [];
-
-        // Load all images from collection
-        foreach ($collectionUids as $collectionUid) {
-            $collection = $this->fileCollectionRepository->findByUid($collectionUid);
-            $collection->loadContents();
-            $galleryCover = [];
-
-            // Load all image and sort them by folder_hash
-            foreach ($collection->getItems() as $item) {
-                if (get_class($item) === 'TYPO3\CMS\Core\Resource\FileReference') {
-                    array_push($galleryCover, $this->getFileObjectFromFileReference($item));
-                } else {
-                    array_push($galleryCover, $item);
-                }
-            }
-            $this->sortFileObjectsByFolderHash($galleryCover, SORT_ASC);
-
-            // Split all images in separate arrays
-            $folderHashedGalleryCovers = [];
-            $oldFolderHash = '';
-            foreach ($galleryCover as $item) {
-                $getFolderPath = explode(strrchr($item->getIdentifier(), '/'), $item->getIdentifier());
-                $itemIdentificatorWithoutFilename = $getFolderPath[0];
-                if ($item->getProperty('folder_hash') !== $oldFolderHash) {
-                    $oldFolderHash = $item->getProperty('folder_hash');
-                    $folderHashedGalleryCovers[$itemIdentificatorWithoutFilename] = [];
-                    array_push($folderHashedGalleryCovers[$itemIdentificatorWithoutFilename], $item);
-                } else {
-                    array_push($folderHashedGalleryCovers[$itemIdentificatorWithoutFilename], $item);
-                }
-            }
-
-            // Sort the array by key => $itemIdentificatorWithoutFilename
-            if ($configuration['settings']['orderNestedFolder'] == 'asc') {
-                ksort($folderHashedGalleryCovers);
-            } else {
-                krsort($folderHashedGalleryCovers);
-            }
-
-            // Sort all subarrays depending on the current settings
-            foreach ($folderHashedGalleryCovers as $itemIdentificatorWithoutFilename => $folderHashedGalleryCoversArray) {
-                $folderHashedGalleryCovers[$itemIdentificatorWithoutFilename] = $this->sortFileObjects($folderHashedGalleryCoversArray);
-                $folderHashedGalleryCovers[$itemIdentificatorWithoutFilename][0]->galleryFolder = $folderHashedGalleryCovers[$itemIdentificatorWithoutFilename][0]->getProperty('folder_hash');
-
-                $getFolderPath = explode('/', $itemIdentificatorWithoutFilename);
-                $folderHashedGalleryCovers[$itemIdentificatorWithoutFilename][0]->galleryFolderName = end($getFolderPath);
-                $folderHashedGalleryCovers[$itemIdentificatorWithoutFilename][0]->galleryUID = $collectionUid;
-                $folderHashedGalleryCovers[$itemIdentificatorWithoutFilename][0]->gallerySize = count($folderHashedGalleryCovers[$itemIdentificatorWithoutFilename]);
-                array_push($imageItems, $folderHashedGalleryCovers[$itemIdentificatorWithoutFilename][0]);
-            }
-        }
-        return $imageItems;
-    }
 
     /**
      * Returns an array of gallery covers for the given UIDs of fileCollections
@@ -300,12 +207,7 @@ class FileCollectionService
         return $assign;
     }
 
-    /**
-     * @param array $items The items to sort
-     * @param $direction the direction. SORT_DESC or SORT_ASC
-     * @return bool
-     */
-    protected function sortFileObjectsByName(&$items, $direction)
+    protected function sortFileObjectsByName($items, int $direction)
     {
         $lowercaseNames = array_map(function ($n) {
             return strtolower($n->getName());
@@ -314,12 +216,7 @@ class FileCollectionService
         array_multisort($lowercaseNames, $direction, SORT_STRING, $items);
     }
 
-    /**
-     * @param array $items The items to sort
-     * @param $direction the direction. SORT_DESC or SORT_ASC
-     * @return bool
-     */
-    protected function sortFileObjectsByDate(&$items, $direction)
+    protected function sortFileObjectsByDate($items, int $direction)
     {
         $dates = array_map(function ($n) {
             return strtolower($n->getCreationTime());
@@ -328,12 +225,7 @@ class FileCollectionService
         array_multisort($dates, $direction, SORT_NUMERIC, $items);
     }
 
-    /**
-     * @param array $items The items to sort
-     * @param $direction the direction. SORT_DESC or SORT_ASC
-     * @return bool
-     */
-    protected function sortFileObjectsByFolderHash(&$items, $direction)
+    protected function sortFileObjectsByFolderHash(&$items, int $direction)
     {
         $folderhashes = array_map(function ($n) {
             return strtolower($n->getProperty('folder_hash'));
@@ -352,7 +244,7 @@ class FileCollectionService
     protected function sortFileObjects($imageItems)
     {
         $configuration = $this->frontendConfigurationManager->getConfiguration();
-        switch ($configuration['settings']['order']) {
+        switch ($configuration['settings']['order'] ?? '') {
             case 'desc':
                 $this->sortFileObjectsByName($imageItems, SORT_DESC);
                 break;
@@ -375,11 +267,8 @@ class FileCollectionService
     /**
      * Returns an FileObject from a given FileReference
      *
-     * @param \TYPO3\CMS\Core\Resource\FileReference $item The item
-     *
-     * @return \TYPO3\CMS\Core\Resource\File
      */
-    protected function getFileObjectFromFileReference(FileReference $item)
+    protected function getFileObjectFromFileReference(FileReference $item) : \TYPO3\CMS\Core\Resource\File
     {
         /**
          * The item to return
