@@ -63,7 +63,7 @@ class GalleryController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControll
     {
 
         $collectionUids = (trim($this->settings['fileCollection']) !== '') ? explode(',', $this->settings['fileCollection']) : [];
-        if (isset($this->settings['inlineFileCollection'])) {
+        if (isset($this->settings['inlineFileCollection']) && $this->settings['inlineFileCollection']) {
             $collectionUids = array_merge($collectionUids, explode(',', $this->settings['inlineFileCollection']));
         }
         $cObj = $this->request->getAttribute('currentContentObject');
